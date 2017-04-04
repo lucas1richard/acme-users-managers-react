@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       changeManager(userId, managerId) {
         return Promise.all([
           this.findById(userId),
-          this.findById(managerId)
+          // If someone has an id of -1, they need to re-evaluate their life
+          this.findOne({ where: { id: managerId * 1 || -1 } })
         ])
         .then(([ user, manager ]) => user.setManager(manager));
       },

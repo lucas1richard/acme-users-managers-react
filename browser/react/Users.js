@@ -1,7 +1,10 @@
 import React from 'react';
 import UserItem from './UserItem';
 
-const Users = ({ users, router, managers, handleChangeManager }) => (
+const Users = ({ users, router, handleChangeManager }) => {
+  const managers = users.filter(user => user.isManager);
+
+  return (
   <div>
     { users.map(user =>
       <UserItem
@@ -12,6 +15,6 @@ const Users = ({ users, router, managers, handleChangeManager }) => (
         handleChangeManager={ handleChangeManager }
       />) }
   </div>
-);
+)};
 
 export default Users;

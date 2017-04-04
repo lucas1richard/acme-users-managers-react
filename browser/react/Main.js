@@ -5,16 +5,13 @@ import { Link, browserHistory } from 'react-router';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { users: [], managers: [] };
+    this.state = { users: [] };
     this.handleChangeManager = this.handleChangeManager.bind(this);
   }
 
   componentDidMount() {
-    let users;
     axios.get('/api/users')
-      .then(({ data }) => {users = data;})
-      .then(() => axios.get('/api/managers'))
-      .then(({ data }) => this.setState({ users, managers: data }));
+      .then(({ data }) => this.setState({ users: data }));
   }
 
   handleChangeManager(ev, userId) {
@@ -23,7 +20,6 @@ class Main extends React.Component {
       .then(( { data }) => {
         const users = this.state.users.map(user => {
           if (user.id * 1 === data.id * 1) {
-            console.log(user);
             user = data;
           }
           return user;

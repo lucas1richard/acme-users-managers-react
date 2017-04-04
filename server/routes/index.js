@@ -2,7 +2,11 @@ const router = require('express').Router();
 const db = require('../db');
 
 const { User } = db.models;
-db.seed();
+db.seed()
+  .then(() => User.findOne({ where: { id: -1 } })
+  )
+  .then(user => console.log(user));
+
 
 router.get('/users', (req, res, next) => {
   User.usersWManagers()
@@ -12,7 +16,10 @@ router.get('/users', (req, res, next) => {
 
 router.put('/users/:userId', (req, res, next) => {
   User.changeManager(req.params.userId, req.body.managerId)
-  .then(user => res.json(user))
+  .then(user => {
+    console.log(user.get());
+    return res.json(user);
+  })
   .catch(next);
 });
 
